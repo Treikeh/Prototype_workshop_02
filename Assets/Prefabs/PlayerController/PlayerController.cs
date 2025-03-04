@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
-        Debug.Log(isGrounded);
         // Move left and right
         moveInput = Input.GetAxisRaw("Horizontal");
         rBody.linearVelocityX = moveInput * moveSpeed * Time.fixedDeltaTime;
