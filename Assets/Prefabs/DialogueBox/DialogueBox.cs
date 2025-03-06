@@ -6,18 +6,20 @@ using UnityEngine.Events;
 
 public class DialogueBox : MonoBehaviour
 {
-    [SerializeField] private List<String> dialogue;
+    [SerializeField] private List<DialogueDialogue> dialogue;
     [SerializeField] private TMP_Text dialogueName;
     [SerializeField] private TMP_Text dialogueText;
     private int currentDialogue = 0;
 
     public UnityEvent dialogueBoxOpened;
     public UnityEvent dialogueBoxClosed;
+    public UnityEvent finalDialogueReached;
 
 
     void Start()
     {
-        dialogueText.text = dialogue[currentDialogue];
+        dialogueName.text = dialogue[currentDialogue].speakerName;
+        dialogueText.text = dialogue[currentDialogue].dialogue;
     }
 
 
@@ -36,12 +38,26 @@ public class DialogueBox : MonoBehaviour
 
     public void NextDialogueText()
     {
-        if (currentDialogue >= (dialogue.Count - 1))
+        if (currentDialogue == (dialogue.Count - 1))
         {
-            Debug.Log("Final dialogue");
             return;
         }
+        
         currentDialogue += 1;
-        dialogueText.text = dialogue[currentDialogue];
+        dialogueName.text = dialogue[currentDialogue].speakerName;
+        dialogueText.text = dialogue[currentDialogue].dialogue;
+
+        if (currentDialogue == (dialogue.Count - 1))
+        {
+            finalDialogueReached.Invoke();
+        }
     }
+}
+
+
+[Serializable]
+public class DialogueDialogue
+{
+    public String speakerName;
+    public String dialogue;
 }
